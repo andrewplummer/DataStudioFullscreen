@@ -1,5 +1,7 @@
 (function() {
 
+  var TRANSITION = 'transform ease-in-out 250ms';
+
   var button;
   var buttonImg;
   var debounceTimer;
@@ -8,19 +10,22 @@
   // so use the report element for the transform and the parent
   // element for calculating the scale and holding the button.
   var report;
+  var reportCanvas;
   var reportParent;
 
   function checkForReportElement() {
     report = document.querySelector('lego-report');
     if (report) {
       reportParent = report.parentNode;
+      reportCanvas = document.querySelector('lego-canvas-container');
       button = document.createElement('button');
       buttonImg = document.createElement('img');
       button.className = 'datastudio-fullscreen-extension-button';
       button.appendChild(buttonImg);
       button.addEventListener('click', onButtonClick);
       setButtonState(true);
-      report.style.transition = 'transform ease-in-out 250ms'
+      report.style.transition = TRANSITION;
+      reportCanvas.style.transition = TRANSITION;
       reportParent.appendChild(button);
     } else {
       setTimeout(checkForReportElement, 2000);
@@ -61,12 +66,20 @@
     if (isFullscreen()) {
       var w = window.innerWidth / reportParent.clientWidth;
       var h = window.innerHeight / reportParent.clientHeight;
-      var scale = Math.min(w, h).toFixed(2);
-      setWebkitProperty(report, 'transform', 'scale('+ scale +')');
+      if (w < h) {
+        var y = (window.innerHeight - reportParent.clientHeight) / 2;
+        setWebkitProperty(report, 'transform', 'scale('+ w.toFixed(2) +')');
+        setWebkitProperty(reportCanvas, 'transform', 'translateY('+ y +'px)');
+      } else {
+        var x = (window.innerWidth - reportParent.clientWidth) / 2;
+        setWebkitProperty(report, 'transform', 'scale('+ h.toFixed(2) +')');
+        setWebkitProperty(reportCanvas, 'transform', 'translateX('+ x +'px)');
+      }
       setWebkitProperty(report, 'transformOrigin', 'top left');
     } else {
       setWebkitProperty(report, 'transform', '');
       setWebkitProperty(report, 'transformOrigin', '');
+      setWebkitProperty(reportCanvas, 'transform', '');
     }
   }
 
