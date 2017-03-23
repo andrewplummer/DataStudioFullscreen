@@ -4,7 +4,7 @@
 
   "name": "Data Studio Fullscreen",
   "description": "An extension that puts Data Studio into fullscreen for dashboards, etc.",
-  "version": "1.0.0",
+  "version": "1.0.1",
 
   "icons": {
     "16":  "images/app/16.png",
