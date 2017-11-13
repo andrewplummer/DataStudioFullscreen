@@ -64,16 +64,16 @@
 
   function setReportScale() {
     if (isFullscreen()) {
-      var w = window.innerWidth / reportParent.clientWidth;
-      var h = window.innerHeight / reportParent.clientHeight;
+      var w = screen.width / reportParent.clientWidth;
+      var h = screen.height / reportParent.clientHeight;
       if (w < h) {
-        var y = (window.innerHeight - reportParent.clientHeight) / 2;
+        var y = (screen.height - reportParent.clientHeight) / 2;
         setWebkitProperty(report, 'transform', 'scale('+ w.toFixed(2) +')');
-        setWebkitProperty(reportCanvas, 'transform', 'translateY('+ y +'px)');
+        setWebkitProperty(reportCanvas, 'transform', 'translateY('+ Math.round(y / 2) +'px)');
       } else {
-        var x = (window.innerWidth - reportParent.clientWidth) / 2;
+        var x = (screen.width - reportParent.clientWidth) / 2;
         setWebkitProperty(report, 'transform', 'scale('+ h.toFixed(2) +')');
-        setWebkitProperty(reportCanvas, 'transform', 'translateX('+ x +'px)');
+        setWebkitProperty(reportCanvas, 'transform', 'translateX('+ Math.round(x / 2) +'px)');
       }
       setWebkitProperty(report, 'transformOrigin', 'top left');
     } else {
